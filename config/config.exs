@@ -26,6 +26,23 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :task_app, :pow,
+  user: TaskApp.Users.User,
+  repo: TaskApp.Repo,
+  web_module: TaskAppWeb,
+  extensions: [PowResetPassword],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  mailer_backend: TaskAppWeb.PowMailer
+
+config :task_app, :pow_assent,
+  providers: [
+    github: [
+      client_id: "dbb33616f217af064d26",
+      client_secret: "dbec42e65525115086b11d04cc7dd39b354b337a",
+      strategy: Assent.Strategy.Github
+    ]
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
